@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:wght@400;600&display=swap" rel="stylesheet">
+
+        <title>Imageboard</title>
+    </head>
+    <body>
+    
+        
+        <main id="main">
+            <form 
+            class="uploadForm"
+            action="/image"
+            method="post"
+             enctype="multipart/form-data"
+             @submit.prevent="onFormSubmit">
+
+          
+            <h1>PIXHUB</h1>
+                   <h3>Upload and share your favourite photos with our wonderful community!</h3>
+             <div class="upload">
+               
+                <div class="title"></div>
+               
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" >
+                
+                <label for="description">Description</label>
+                <input type="text" name="description" id="description">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" >
+               
+                <input type="file" name="photo" id="file" >
+                
+                <input type="submit" name="submit" value="Upload" id="submit">
+                
+            </div>
+            </form>
+            
+
+            <h1>Latest Images</h1>
+            
+            <div class="img-wrapper">
+                <div class="imgInfo" v-for="(image, index) in images"   @click="selectImage(index)">
+                    <!-- @click.stop stops propagation, so the modal doesnt pop up as well(@click selectImage) -->
+                     <button class="btn" @click.stop="deleteImage(image.id)">X</button>
+                    <!-- v-bind: has a shorthand which is simply :  -->
+                    <img v-bind:src="image.url" v-bind:alt="image.description">
+                    <p>{{image.title}}</p>
+                </div>
+            </div>
+
+            <!-- camel case has to be kebab case, i.e. my-component in html, since html is case insensitive -->
+            <!-- the function inside my component needs to be defined in app.js -->
+            <!-- it doesn't have to be called " my component", I could call it "my-Modal"... -->
+            <!--close is my prop  -->
+            <!-- show-next : the result of thsi expression is accessible in my comnponent, so I can use it in my template(myModal) to hide or show he button -->
+            <my-modal v-if ="selectedImage !== null"
+                :image="images[selectedImage]"
+                :close="deselectImage" 
+                :previous="selectPreviousImage"  
+                :next="selectNextImage" 
+                :show-next="selectedImage < images.length-1"
+                :show-previous="selectedImage >0"></my-modal>
+
+<!-- create a more button -->
+<button class="more-button" @click = "onShowMore()" v-if="canShowMore()">Show more photos</button>
+
+        </main>
+        <script
+            src="/js/app.js"
+            type="module"
+            crossorigin="use-credentials"
+        ></script>
+    </body>
+
+</html>
