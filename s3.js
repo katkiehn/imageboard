@@ -1,15 +1,10 @@
 const aws = require("aws-sdk");
 const fs = require("fs");
+const secrets = require("./secrets"); // in dev they are in secrets.json which is listed in .gitignore
 // , since we use this in multiple places, I only need to change this variable if I change the bucket value
-const S3_BUCKET = "spicedling";
-exports.S3_BUCKET = S3_BUCKET;
 
-let secrets;
-if (process.env.NODE_ENV == "production") {
-    secrets = process.env; // in prod the secrets are environment variables
-} else {
-    secrets = require("./secrets"); // in dev they are in secrets.json which is listed in .gitignore
-}
+exports.S3_BUCKET = secrets.S3_BUCKET;
+
 // aws expects these key names
 const s3 = new aws.S3({
     accessKeyId: secrets.AWS_KEY,

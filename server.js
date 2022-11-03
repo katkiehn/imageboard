@@ -104,4 +104,6 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.listen(process.env.PORT || 8080, () => console.log(`I'm listening.`));
+app.listen(process.env.IMAGEBOARD_PORT || 3002, () =>
+    console.log(`I'm listening.`)
+);

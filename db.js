@@ -1,7 +1,6 @@
-const dbUrl =
-    process.env.DATABASE_URL ||
-    "postgres://postgres:postgres@localhost:5432/imageboard";
 const spicedPg = require("spiced-pg");
+const secrets = require("./secrets");
+const dbUrl = secrets.DATABASE_URL;
 const db = spicedPg(dbUrl);
 
 module.exports.getImages = () => {
