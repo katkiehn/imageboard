@@ -4,6 +4,7 @@ const secrets = require("./secrets"); // in dev they are in secrets.json which i
 // , since we use this in multiple places, I only need to change this variable if I change the bucket value
 
 exports.S3_BUCKET = secrets.S3_BUCKET;
+exports.S3_REGION = secrets.S3_REGION;
 
 // aws expects these key names
 const s3 = new aws.S3({
@@ -21,7 +22,7 @@ exports.upload = (req, res, next) => {
     // 's3 represents our user'
     s3.putObject({
         // bucket name needs to be changed in case I open my own aws account- own bucket
-        Bucket: S3_BUCKET,
+        Bucket: secrets.S3_BUCKET,
         ACL: "public-read",
         Key: filename,
         Body: fs.createReadStream(path),

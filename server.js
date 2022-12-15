@@ -28,7 +28,7 @@ app.post("/api/images", uploader.single("photo"), s3.upload, (req, res) => {
     // 'respond to the client- success/failure'; req.file is created by Multer if upload worked
     if (req.file) {
         db.insertImage(
-            `https://s3.amazonaws.com/${s3.S3_BUCKET}/${req.file.filename}`,
+            `https://${s3.S3_BUCKET}.s3.${s3.S3_REGION}.amazonaws.com/${req.file.filename}`,
             req.body.title,
             req.body.description,
             req.body.username
